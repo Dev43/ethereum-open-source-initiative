@@ -14,10 +14,11 @@ contract UnsafeWallet {
     }
     // Withdraw your balance.
     function withdraw() returns(bool){
+        uint toWithdraw = balances[msg.sender];
         // .call returns true if completed, false otherwise
         // the biggest flaw here is that .call() gives all of the remaining gas to the recipient
         // thus a re-entrancy attack can be done again and again
-        if (msg.sender.call.value(balances[msg.sender])()){
+        if (msg.sender.call.value(toWithdraw)()){
             balances[msg.sender] = 0;
             return true;
         }
